@@ -107,3 +107,58 @@ WHERE type = 'silver';
 DELETE FROM practice_delete
 WHERE value = 150;
 
+CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(50), email TEXT)
+
+INSERT INTO users (name, email) VALUES ('Cam', 'camcraw30@gmail.com'),
+('Cory', 'coryxkenshin@gmail.com'),
+('Frank', 'frankwest@gmail.com')
+
+CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(50), price INTEGER)
+
+INSERT INTO products (name, price)
+VALUES ('Video Game', 59.99),
+('Movie', 19.96),
+('Bed Sheets', 12.73)
+
+CREATE TABLE orders (id SERIAL PRIMARY KEY, product_name VARCHAR(50))
+
+INSERT INTO orders (product_name)
+VALUES ('Video Game'),
+('Movie'),
+('Bed Sheets');
+
+SELECT * FROM products AS p
+JOIN orders AS o ON p.product_id = o.product_id
+WHERE o.product_id = 1;
+
+SELECT * FROM orders AS o
+JOIN products AS p ON p.product_id = o.product_id;
+
+SELECT SUM(p.price) FROM orders AS o
+JOIN products AS p ON p.product_id = o.product_id
+WHERE o.order_id = 2;
+
+ALTER TABLE users
+ADD order_id INT;
+
+ALTER TABLE users
+ADD FOREIGN KEY (order_id) REFERENCES orders(order_id);
+
+UPDATE users 
+SET order_id = 1
+WHERE name ='Bobby';
+
+UPDATE users 
+SET order_id = 2
+WHERE name ='Robby';
+
+UPDATE users 
+SET order_id = 3
+WHERE name ='Billy';
+
+SELECT * FROM orders AS o
+JOIN users AS u ON o.order_id = u.order_id
+WHERE u.user_id = 1;
+
+SELECT SUM(o.order_id) FROM orders AS o
+JOIN users AS u ON o.order_id = u.order_id;
